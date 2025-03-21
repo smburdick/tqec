@@ -390,7 +390,7 @@
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.Pipe.html">Pipe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.PipeKind.html">PipeKind</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.Port.html">Port</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tqec.computation.YCube.html">YCube</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.computation.YHalfCube.html">YHalfCube</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.ZXCube.html">ZXCube</a></li>
 </ul>
 </details></li>
@@ -403,6 +403,22 @@
 <li class="toctree-l2"><a class="reference internal" href="tqec.compile.CubeSpec.html">CubeSpec</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.compile.PipeSpec.html">PipeSpec</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.compile.SubstitutionBuilder.html">SubstitutionBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.TopologicalComputationGraph.html">TopologicalComputationGraph</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tqec.compile.blocks.html">tqec.compile.blocks</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.merge_parallel_block_layers.html">merge_parallel_block_layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.BaseComposedLayer.html">BaseComposedLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.BaseLayer.html">BaseLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.Block.html">Block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.LayoutLayer.html">LayoutLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.LayoutPosition2D.html">LayoutPosition2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.PlaquetteLayer.html">PlaquetteLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.RawCircuitLayer.html">RawCircuitLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.RepeatedLayer.html">RepeatedLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.SequencedLayers.html">SequencedLayers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.SpatialBlockBorder.html">SpatialBlockBorder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.TemporalBlockBorder.html">TemporalBlockBorder</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tqec.gallery.html">tqec.gallery</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -442,8 +458,6 @@
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.PhysicalQubitPosition2D.html">PhysicalQubitPosition2D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.PlaquettePosition2D.html">PlaquettePosition2D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.Position3D.html">Position3D</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tqec.utils.Scalable2D.html">Scalable2D</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tqec.utils.Shape2D.html">Shape2D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.Shift2D.html">Shift2D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.SignedDirection3D.html">SignedDirection3D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.TQECException.html">tqec.utils.TQECException</a></li>
@@ -516,7 +530,7 @@
 another existing <code class="docutils literal notranslate"><span class="pre">tqec</span></code> sub-module and that also do not import any code from
 the other <code class="docutils literal notranslate"><span class="pre">tqec</span></code> sub-modules.</p>
 <p class="rubric">Functions</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.round_or_fail.html#tqec.utils.round_or_fail" title="tqec.utils.round_or_fail"><code class="xref py py-obj docutils literal notranslate"><span class="pre">round_or_fail</span></code></a>(f[, atol])</p></td>
 <td><p>Try to round the provided <code class="docutils literal notranslate"><span class="pre">f</span></code> to the nearest integer and raise if <code class="docutils literal notranslate"><span class="pre">f</span></code> was not close enough to this integer.</p></td>
@@ -525,15 +539,15 @@ the other <code class="docutils literal notranslate"><span class="pre">tqec</spa
 </table>
 </div>
 <p class="rubric">Classes</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.Basis.html#tqec.utils.Basis" title="tqec.utils.Basis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Basis</span></code></a>(*values)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.Basis.html#tqec.utils.Basis" title="tqec.utils.Basis"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Basis</span></code></a>(value[, names, module, qualname, ...])</p></td>
 <td><p></p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="tqec.utils.BlockPosition2D.html#tqec.utils.BlockPosition2D" title="tqec.utils.BlockPosition2D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BlockPosition2D</span></code></a>(x, y)</p></td>
 <td><p>Represents the position of a block on a 2-dimensional plane.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.Direction3D.html#tqec.utils.Direction3D" title="tqec.utils.Direction3D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Direction3D</span></code></a>(*values)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.Direction3D.html#tqec.utils.Direction3D" title="tqec.utils.Direction3D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Direction3D</span></code></a>(value[, names, module, ...])</p></td>
 <td><p>Axis directions in the 3D spacetime diagram.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="tqec.utils.LinearFunction.html#tqec.utils.LinearFunction" title="tqec.utils.LinearFunction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">LinearFunction</span></code></a>([slope, offset])</p></td>
@@ -542,7 +556,7 @@ the other <code class="docutils literal notranslate"><span class="pre">tqec</spa
 <tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.NoiseModel.html#tqec.utils.NoiseModel" title="tqec.utils.NoiseModel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NoiseModel</span></code></a>(idle_depolarization[, ...])</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="tqec.utils.Orientation.html#tqec.utils.Orientation" title="tqec.utils.Orientation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Orientation</span></code></a>(*values)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="tqec.utils.Orientation.html#tqec.utils.Orientation" title="tqec.utils.Orientation"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Orientation</span></code></a>(value[, names, module, ...])</p></td>
 <td><p>Either horizontal or vertical orientation.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.PhysicalQubitPosition2D.html#tqec.utils.PhysicalQubitPosition2D" title="tqec.utils.PhysicalQubitPosition2D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">PhysicalQubitPosition2D</span></code></a>(x, y)</p></td>
@@ -554,12 +568,6 @@ the other <code class="docutils literal notranslate"><span class="pre">tqec</spa
 <tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.Position3D.html#tqec.utils.Position3D" title="tqec.utils.Position3D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Position3D</span></code></a>(x, y, z)</p></td>
 <td><p>A 3D integer position.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="tqec.utils.Scalable2D.html#tqec.utils.Scalable2D" title="tqec.utils.Scalable2D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Scalable2D</span></code></a>(x, y)</p></td>
-<td><p>A pair of scalable quantities.</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.Shape2D.html#tqec.utils.Shape2D" title="tqec.utils.Shape2D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Shape2D</span></code></a>(x, y)</p></td>
-<td><p></p></td>
-</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="tqec.utils.Shift2D.html#tqec.utils.Shift2D" title="tqec.utils.Shift2D"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Shift2D</span></code></a>(x, y)</p></td>
 <td><p></p></td>
 </tr>
@@ -570,7 +578,7 @@ the other <code class="docutils literal notranslate"><span class="pre">tqec</spa
 </table>
 </div>
 <p class="rubric">Exceptions</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="tqec.utils.TQECException.html#tqec.utils.TQECException" title="tqec.utils.TQECException"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TQECException</span></code></a></p></td>
 <td><p></p></td>
@@ -662,7 +670,7 @@ the other <code class="docutils literal notranslate"><span class="pre">tqec</spa
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.1.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>

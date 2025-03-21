@@ -1,9 +1,9 @@
-YCube
-=====
+YHalfCube
+=========
 
 .. currentmodule:: tqec.computation
 
-.. autoclass:: YCube
+.. autoclass:: YHalfCube
 
    
    
@@ -11,7 +11,7 @@ YCube
 
    .. autosummary::
    
-      ~YCube.__init__
+      ~YHalfCube.__init__
    
    
 

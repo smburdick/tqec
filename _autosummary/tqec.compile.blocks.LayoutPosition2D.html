@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>YCube &#8212; TQEC  documentation</title>
+    <title>LayoutPosition2D &#8212; TQEC  documentation</title>
   
   
   
@@ -45,11 +45,11 @@
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/tqec.computation.YCube';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_autosummary/tqec.compile.blocks.LayoutPosition2D';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="ZXCube" href="tqec.computation.ZXCube.html" />
-    <link rel="prev" title="Port" href="tqec.computation.Port.html" />
+    <link rel="next" title="PlaquetteLayer" href="tqec.compile.blocks.PlaquetteLayer.html" />
+    <link rel="prev" title="LayoutLayer" href="tqec.compile.blocks.LayoutLayer.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -383,14 +383,14 @@
 <li class="toctree-l2"><a class="reference internal" href="tqec.circuit.ScheduleException.html">tqec.circuit.ScheduleException</a></li>
 </ul>
 </details></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="tqec.computation.html">tqec.computation</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l1 has-children"><a class="reference internal" href="tqec.computation.html">tqec.computation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.BlockGraph.html">BlockGraph</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.CorrelationSurface.html">CorrelationSurface</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.Cube.html">Cube</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.Pipe.html">Pipe</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.PipeKind.html">PipeKind</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.Port.html">Port</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">YCube</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.computation.YHalfCube.html">YHalfCube</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.computation.ZXCube.html">ZXCube</a></li>
 </ul>
 </details></li>
@@ -403,6 +403,22 @@
 <li class="toctree-l2"><a class="reference internal" href="tqec.compile.CubeSpec.html">CubeSpec</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.compile.PipeSpec.html">PipeSpec</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.compile.SubstitutionBuilder.html">SubstitutionBuilder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.TopologicalComputationGraph.html">TopologicalComputationGraph</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="tqec.compile.blocks.html">tqec.compile.blocks</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.merge_parallel_block_layers.html">merge_parallel_block_layers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.BaseComposedLayer.html">BaseComposedLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.BaseLayer.html">BaseLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.Block.html">Block</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.LayoutLayer.html">LayoutLayer</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">LayoutPosition2D</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.PlaquetteLayer.html">PlaquetteLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.RawCircuitLayer.html">RawCircuitLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.RepeatedLayer.html">RepeatedLayer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.SequencedLayers.html">SequencedLayers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.SpatialBlockBorder.html">SpatialBlockBorder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tqec.compile.blocks.TemporalBlockBorder.html">TemporalBlockBorder</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="tqec.gallery.html">tqec.gallery</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -442,8 +458,6 @@
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.PhysicalQubitPosition2D.html">PhysicalQubitPosition2D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.PlaquettePosition2D.html">PlaquettePosition2D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.Position3D.html">Position3D</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tqec.utils.Scalable2D.html">Scalable2D</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tqec.utils.Shape2D.html">Shape2D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.Shift2D.html">Shift2D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.SignedDirection3D.html">SignedDirection3D</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tqec.utils.TQECException.html">tqec.utils.TQECException</a></li>
@@ -493,9 +507,9 @@
     <li class="breadcrumb-item"><a href="../api.html" class="nav-link">API Reference</a></li>
     
     
-    <li class="breadcrumb-item"><a href="tqec.computation.html" class="nav-link">tqec.computation</a></li>
+    <li class="breadcrumb-item"><a href="tqec.compile.blocks.html" class="nav-link">tqec.compile.blocks</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">YCube</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">LayoutPosition2D</span></li>
   </ul>
 </nav>
 </div>
@@ -512,27 +526,79 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="ycube">
-<h1>YCube<a class="headerlink" href="#ycube" title="Link to this heading">#</a></h1>
+  <section id="layoutposition2d">
+<h1>LayoutPosition2D<a class="headerlink" href="#layoutposition2d" title="Link to this heading">#</a></h1>
 <dl class="py class">
-<dt class="sig sig-object py" id="tqec.computation.YCube">
-<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tqec.computation.</span></span><span class="sig-name descname"><span class="pre">YCube</span></span><a class="reference internal" href="../_modules/tqec/computation/cube.html#YCube"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tqec.computation.YCube" title="Link to this definition">#</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Cube kind representing the Y-basis initialization/measurements.</p>
+<dt class="sig sig-object py" id="tqec.compile.blocks.LayoutPosition2D">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">tqec.compile.blocks.</span></span><span class="sig-name descname"><span class="pre">LayoutPosition2D</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tqec/compile/blocks/positioning.html#LayoutPosition2D"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tqec.compile.blocks.LayoutPosition2D" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></p>
+<p>Internal class to represent the local indexing used to represent both
+cubes and pipes.</p>
 <p class="rubric">Methods</p>
-<div class="pst-scrollable-table-container"><table class="autosummary longtable table">
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#tqec.computation.YCube.__init__" title="tqec.computation.YCube.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>()</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tqec.compile.blocks.LayoutPosition2D.__init__" title="tqec.compile.blocks.LayoutPosition2D.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(x, y)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#tqec.compile.blocks.LayoutPosition2D.from_block_position" title="tqec.compile.blocks.LayoutPosition2D.from_block_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_block_position</span></code></a>(pos)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#tqec.compile.blocks.LayoutPosition2D.from_pipe_position" title="tqec.compile.blocks.LayoutPosition2D.from_pipe_position"><code class="xref py py-obj docutils literal notranslate"><span class="pre">from_pipe_position</span></code></a>(pipe_position)</p></td>
 <td><p></p></td>
 </tr>
 </tbody>
 </table>
 </div>
 <p class="rubric">Detailed methods</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>)</p></li>
+<li><p><strong>y</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py method">
-<dt class="sig sig-object py" id="tqec.computation.YCube.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tqec.computation.YCube.__init__" title="Link to this definition">#</a></dt>
-<dd></dd></dl>
+<dt class="sig sig-object py" id="tqec.compile.blocks.LayoutPosition2D.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tqec/compile/blocks/positioning.html#LayoutPosition2D.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tqec.compile.blocks.LayoutPosition2D.__init__" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>int</em>)</p></li>
+<li><p><strong>y</strong> (<em>int</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tqec.compile.blocks.LayoutPosition2D.from_block_position">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_block_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pos</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tqec/compile/blocks/positioning.html#LayoutPosition2D.from_block_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tqec.compile.blocks.LayoutPosition2D.from_block_position" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pos</strong> (<a class="reference internal" href="tqec.utils.BlockPosition2D.html#tqec.utils.BlockPosition2D" title="tqec.utils.position.BlockPosition2D"><em>BlockPosition2D</em></a>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>LayoutCubePosition2D</em></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="tqec.compile.blocks.LayoutPosition2D.from_pipe_position">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pipe_position</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipe_position</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/tqec/compile/blocks/positioning.html#LayoutPosition2D.from_pipe_position"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#tqec.compile.blocks.LayoutPosition2D.from_pipe_position" title="Link to this definition">#</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>pipe_position</strong> (<em>tuple</em><em>[</em><a class="reference internal" href="tqec.utils.BlockPosition2D.html#tqec.utils.BlockPosition2D" title="tqec.utils.position.BlockPosition2D"><em>BlockPosition2D</em></a><em>, </em><a class="reference internal" href="tqec.utils.BlockPosition2D.html#tqec.utils.BlockPosition2D" title="tqec.utils.position.BlockPosition2D"><em>BlockPosition2D</em></a><em>]</em>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><em>LayoutPipePosition2D</em></p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -549,20 +615,20 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="tqec.computation.Port.html"
+       href="tqec.compile.blocks.LayoutLayer.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Port</p>
+        <p class="prev-next-title">LayoutLayer</p>
       </div>
     </a>
     <a class="right-next"
-       href="tqec.computation.ZXCube.html"
+       href="tqec.compile.blocks.PlaquetteLayer.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">ZXCube</p>
+        <p class="prev-next-title">PlaquetteLayer</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -585,8 +651,10 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tqec.computation.YCube"><code class="docutils literal notranslate"><span class="pre">YCube</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tqec.computation.YCube.__init__"><code class="docutils literal notranslate"><span class="pre">YCube.__init__()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tqec.compile.blocks.LayoutPosition2D"><code class="docutils literal notranslate"><span class="pre">LayoutPosition2D</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tqec.compile.blocks.LayoutPosition2D.__init__"><code class="docutils literal notranslate"><span class="pre">LayoutPosition2D.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tqec.compile.blocks.LayoutPosition2D.from_block_position"><code class="docutils literal notranslate"><span class="pre">LayoutPosition2D.from_block_position()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tqec.compile.blocks.LayoutPosition2D.from_pipe_position"><code class="docutils literal notranslate"><span class="pre">LayoutPosition2D.from_pipe_position()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -596,7 +664,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/_autosummary/tqec.computation.YCube.rst.txt"
+      <li><a href="../_sources/_autosummary/tqec.compile.blocks.LayoutPosition2D.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
@@ -635,7 +703,7 @@
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.1.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>

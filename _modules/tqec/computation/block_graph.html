@@ -423,7 +423,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="n">Cube</span><span class="p">,</span>
     <span class="n">CubeKind</span><span class="p">,</span>
     <span class="n">Port</span><span class="p">,</span>
-    <span class="n">YCube</span><span class="p">,</span>
+    <span class="n">YHalfCube</span><span class="p">,</span>
     <span class="n">ZXCube</span><span class="p">,</span>
     <span class="n">cube_kind_from_string</span><span class="p">,</span>
 <span class="p">)</span>
@@ -433,6 +433,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.position</span><span class="w"> </span><span class="kn">import</span> <span class="n">Direction3D</span><span class="p">,</span> <span class="n">Position3D</span><span class="p">,</span> <span class="n">SignedDirection3D</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.computation.open_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilledGraph</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.interop.collada.html_viewer</span><span class="w"> </span><span class="kn">import</span> <span class="n">_ColladaHTMLViewer</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.interop.pyzx.positioned</span><span class="w"> </span><span class="kn">import</span> <span class="n">PositionedZX</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.computation.correlation</span><span class="w"> </span><span class="kn">import</span> <span class="n">CorrelationSurface</span>
@@ -499,6 +500,11 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">def</span><span class="w"> </span><span class="nf">num_ports</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Number of ports in the graph.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">([</span><span class="n">node</span> <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cubes</span> <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">is_port</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">ordered_ports</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the labels of the ports in the alphabetical order.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ports</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">cubes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Cube</span><span class="p">]:</span>
@@ -759,7 +765,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        only check the following conditions:</span>
 
 <span class="sd">        - **No fanout:** ports can only have one pipe connected to them.</span>
-<span class="sd">        - **Time-like Y:** Y cubes can only have time-like pipes connected to them.</span>
+<span class="sd">        - **Time-like Y:** Y Half Cubes can only have time-like pipes connected to them.</span>
 <span class="sd">        - **No 3D corner:** a cube cannot have pipes in all three directions.</span>
 <span class="sd">        - **Match color at passthrough:** two pipes in a &quot;pass-through&quot; should have the same</span>
 <span class="sd">          color orientation.</span>
@@ -787,11 +793,11 @@ window.addEventListener("load", () => mermaid.run());
         <span class="k">if</span> <span class="n">cube</span><span class="o">.</span><span class="n">is_y_cube</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pipes</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">TQECException</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Y cube at </span><span class="si">{</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="si">}</span><span class="s2"> does not have exactly one pipe connected.&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Y Half Cube at </span><span class="si">{</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="si">}</span><span class="s2"> does not have exactly one pipe connected.&quot;</span>
                 <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">pipes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">direction</span> <span class="o">==</span> <span class="n">Direction3D</span><span class="o">.</span><span class="n">Z</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">TQECException</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Y cube at </span><span class="si">{</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="si">}</span><span class="s2"> has non-timelike pipes connected.&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Y Half Cube at </span><span class="si">{</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="si">}</span><span class="s2"> has non-timelike pipes connected.&quot;</span>
                 <span class="p">)</span>
             <span class="k">return</span>
 
@@ -984,6 +990,24 @@ window.addEventListener("load", () => mermaid.run());
             <span class="bp">self</span><span class="o">.</span><span class="n">_ports</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">label</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="BlockGraph.fill_ports_for_minimal_simulation">
+<a class="viewcode-back" href="../../../_autosummary/tqec.computation.BlockGraph.html#tqec.computation.BlockGraph.fill_ports_for_minimal_simulation">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fill_ports_for_minimal_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">FilledGraph</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Given a block graph with open ports, fill in the ports with the appropriate</span>
+<span class="sd">        cubes that will minimize the number of simulation runs needed for the complete</span>
+<span class="sd">        logical observable set.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A list of :class:`~tqec.computation.open_graph.FilledGraph` instances, each</span>
+<span class="sd">            containing a block graph with all ports filled and a set of correlation</span>
+<span class="sd">            surfaces that can be used as logical observables for the simulation on that</span>
+<span class="sd">            block graph.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.computation.open_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">fill_ports_for_minimal_simulation</span>
+
+        <span class="k">return</span> <span class="n">fill_ports_for_minimal_simulation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="BlockGraph.compose">
 <a class="viewcode-back" href="../../../_autosummary/tqec.computation.BlockGraph.html#tqec.computation.BlockGraph.compose">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">compose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">BlockGraph</span><span class="p">,</span> <span class="n">self_port</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">other_port</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockGraph</span><span class="p">:</span>
@@ -1116,7 +1140,111 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="n">pos_map</span><span class="p">[</span><span class="n">pipe</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">],</span>
                 <span class="n">cast</span><span class="p">(</span><span class="n">PipeKind</span><span class="p">,</span> <span class="n">rotated_kind</span><span class="p">),</span>
             <span class="p">)</span>
-        <span class="k">return</span> <span class="n">rotated</span></div>
+        <span class="k">return</span> <span class="n">rotated</span><span class="o">.</span><span class="n">fix_shadowed_faces</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BlockGraph.fix_shadowed_faces">
+<a class="viewcode-back" href="../../../_autosummary/tqec.computation.BlockGraph.html#tqec.computation.BlockGraph.fix_shadowed_faces">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">fix_shadowed_faces</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockGraph</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Fix the basis of those shadowed faces of the cubes in the graph.</span>
+
+<span class="sd">        A pair of face can be shadowed if the cube is connected to two pipes</span>
+<span class="sd">        in the same direction. Though these faces are not visible in the 3D</span>
+<span class="sd">        visualization, they are still identified by the cube kind and can</span>
+<span class="sd">        affect the circuit compilation.</span>
+
+<span class="sd">        The basis of the cube is enforced to match the pipes connected to it.</span>
+<span class="sd">        If there is unmatched shadowed faces, we try to fix their basis. This</span>
+<span class="sd">        will leave some freedom in constructing the model in SketchUp and make</span>
+<span class="sd">        everyones&#39; life easier.</span>
+
+<span class="sd">        Additionally, for a spatial pass-through, i.e. a cube only connected to</span>
+<span class="sd">        two pipes in the same direction, we will fix the cube kind to not be a</span>
+<span class="sd">        spatial cube.</span>
+
+<span class="sd">        Note that the fixed graph is still not guaranteed to be valid as some</span>
+<span class="sd">        other conditions may be violated. You still need to call</span>
+<span class="sd">        :py:meth:`~tqec.computation.block_graph.BlockGraph.validate` to check</span>
+<span class="sd">        the validity of the graph.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A new graph with the shadowed faces fixed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fixed_cubes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Cube</span><span class="p">,</span> <span class="n">Cube</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cubes</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span> <span class="n">ZXCube</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="c1"># Group connected pipes by direction</span>
+            <span class="n">pipes_by_direction</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Direction3D</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Pipe</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">pipe</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipes_at</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="p">):</span>
+                <span class="n">pipes_by_direction</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">direction</span><span class="p">,</span> <span class="p">[])</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pipe</span><span class="p">)</span>
+            <span class="c1"># No need to handle the case `len(pipes_by_direction) == 0` as there</span>
+            <span class="c1"># is no pipes connected to the cube.</span>
+            <span class="c1"># No need to handle the case `len(pipes_by_direction) == 3` as it&#39;s</span>
+            <span class="c1"># a 3D corner that cannot be a valid structure.</span>
+            <span class="c1"># Spatial pass-through, ensure that the cube is not a spatial cube</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pipes_by_direction</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="n">shadowed_directions</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">d</span> <span class="k">for</span> <span class="n">d</span><span class="p">,</span> <span class="n">ps</span> <span class="ow">in</span> <span class="n">pipes_by_direction</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ps</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">shadowed_directions</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">new_kind</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">kind</span>
+            <span class="k">for</span> <span class="n">shadowed_direction</span> <span class="ow">in</span> <span class="n">shadowed_directions</span><span class="p">:</span>
+                <span class="c1"># Spatial pass-through, ensure that the cube is not a spatial cube</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="nb">len</span><span class="p">(</span><span class="n">pipes_by_direction</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+                    <span class="ow">and</span> <span class="n">shadowed_direction</span> <span class="o">!=</span> <span class="n">Direction3D</span><span class="o">.</span><span class="n">Z</span>
+                    <span class="ow">and</span> <span class="n">cube</span><span class="o">.</span><span class="n">is_spatial</span>
+                <span class="p">):</span>
+                    <span class="n">kind</span> <span class="o">=</span> <span class="n">cube</span><span class="o">.</span><span class="n">kind</span>
+                    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">kind</span><span class="p">,</span> <span class="n">ZXCube</span><span class="p">)</span>
+                    <span class="n">basis</span> <span class="o">=</span> <span class="n">kind</span><span class="o">.</span><span class="n">get_basis_along</span><span class="p">(</span><span class="n">shadowed_direction</span><span class="p">)</span>
+                    <span class="n">new_kind</span> <span class="o">=</span> <span class="n">kind</span><span class="o">.</span><span class="n">with_basis_along</span><span class="p">(</span>
+                        <span class="n">shadowed_direction</span><span class="p">,</span> <span class="n">basis</span><span class="o">.</span><span class="n">flipped</span><span class="p">()</span>
+                    <span class="p">)</span>
+                    <span class="n">new_cube</span> <span class="o">=</span> <span class="n">Cube</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">new_kind</span><span class="p">,</span> <span class="n">cube</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                    <span class="n">fixed_cubes</span><span class="p">[</span><span class="n">cube</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_cube</span>
+                <span class="c1"># T-shape or X-shape connections, can be either in space or time</span>
+                <span class="c1"># Ensure the shadowed faces match the pipe faces that are in the</span>
+                <span class="c1"># same plane.</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">pipes_by_direction</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">other_direction</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span>
+                        <span class="n">d</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">pipes_by_direction</span> <span class="k">if</span> <span class="n">d</span> <span class="o">!=</span> <span class="n">shadowed_direction</span>
+                    <span class="p">)</span>
+                    <span class="n">need_match_pipe</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">pipes_by_direction</span><span class="p">[</span><span class="n">other_direction</span><span class="p">]))</span>
+                    <span class="n">pipe_basis</span> <span class="o">=</span> <span class="n">need_match_pipe</span><span class="o">.</span><span class="n">kind</span><span class="o">.</span><span class="n">get_basis_along</span><span class="p">(</span>
+                        <span class="n">shadowed_direction</span><span class="p">,</span> <span class="n">need_match_pipe</span><span class="o">.</span><span class="n">at_head</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">assert</span> <span class="n">pipe_basis</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                    <span class="n">new_kind</span> <span class="o">=</span> <span class="n">new_kind</span><span class="o">.</span><span class="n">with_basis_along</span><span class="p">(</span><span class="n">shadowed_direction</span><span class="p">,</span> <span class="n">pipe_basis</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">new_kind</span> <span class="o">!=</span> <span class="n">cube</span><span class="o">.</span><span class="n">kind</span><span class="p">:</span>
+                <span class="n">new_cube</span> <span class="o">=</span> <span class="n">Cube</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">new_kind</span><span class="p">,</span> <span class="n">cube</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+                <span class="n">fixed_cubes</span><span class="p">[</span><span class="n">cube</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_cube</span>
+        <span class="n">new_graph</span> <span class="o">=</span> <span class="n">BlockGraph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cubes</span><span class="p">:</span>
+            <span class="n">new_cube</span> <span class="o">=</span> <span class="n">fixed_cubes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">cube</span><span class="p">,</span> <span class="n">cube</span><span class="p">)</span>
+            <span class="n">new_graph</span><span class="o">.</span><span class="n">add_cube</span><span class="p">(</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">new_cube</span><span class="o">.</span><span class="n">kind</span><span class="p">,</span> <span class="n">new_cube</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">pipe</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pipes</span><span class="p">:</span>
+            <span class="n">new_graph</span><span class="o">.</span><span class="n">add_pipe</span><span class="p">(</span><span class="n">pipe</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">,</span> <span class="n">pipe</span><span class="o">.</span><span class="n">kind</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_graph</span></div>
+
+
+<div class="viewcode-block" id="BlockGraph.get_cubes_by_label">
+<a class="viewcode-back" href="../../../_autosummary/tqec.computation.BlockGraph.html#tqec.computation.BlockGraph.get_cubes_by_label">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_cubes_by_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">label</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Cube</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Find cubes with the specified label in the BlockGraph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            label: The label of the cubes.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The cube instances that have the specified label.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">cube</span> <span class="k">for</span> <span class="n">cube</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">cubes</span> <span class="k">if</span> <span class="n">cube</span><span class="o">.</span><span class="n">label</span> <span class="o">==</span> <span class="n">label</span><span class="p">]</span></div>
 </div>
 
 
@@ -1127,7 +1255,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">if</span> <span class="s2">&quot;O&quot;</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">PipeKind</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
     <span class="k">elif</span> <span class="n">string</span> <span class="o">==</span> <span class="s2">&quot;Y&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">YCube</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">YHalfCube</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ZXCube</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
 </pre></div>
@@ -1180,7 +1308,7 @@ window.addEventListener("load", () => mermaid.run());
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.1.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>
