@@ -453,18 +453,48 @@ window.addEventListener("load", () => mermaid.run());
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Final</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">stim</span>
+
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.blocks.block</span><span class="w"> </span><span class="kn">import</span> <span class="n">Block</span><span class="p">,</span> <span class="n">merge_parallel_block_layers</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.blocks.enums</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">SpatialBlockBorder</span><span class="p">,</span>
     <span class="n">TemporalBlockBorder</span><span class="p">,</span>
     <span class="n">border_from_signed_direction</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.blocks.layers.atomic.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseLayer</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.blocks.layers.atomic.plaquettes</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlaquetteLayer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.blocks.layers.composed.sequenced</span><span class="w"> </span><span class="kn">import</span> <span class="n">SequencedLayers</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.blocks.positioning</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayoutPosition2D</span><span class="p">,</span> <span class="n">LayoutPosition3D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.blocks.positioning</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">LayoutPipePosition2D</span><span class="p">,</span>
+    <span class="n">LayoutPosition2D</span><span class="p">,</span>
+    <span class="n">LayoutPosition3D</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.detectors.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">DetectorDatabase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.observables.abstract_observable</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractObservable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.observables.builder</span><span class="w"> </span><span class="kn">import</span> <span class="n">ObservableBuilder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.compile.tree.tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">LayerTree</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.templates.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">TemplateBorder</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TQECException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.noise_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoiseModel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.position</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlockPosition3D</span><span class="p">,</span> <span class="n">Direction3D</span><span class="p">,</span> <span class="n">SignedDirection3D</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.scale</span><span class="w"> </span><span class="kn">import</span> <span class="n">PhysicalQubitScalable2D</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">substitute_plaquettes</span><span class="p">(</span>
+    <span class="n">target</span><span class="p">:</span> <span class="n">PlaquetteLayer</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">PlaquetteLayer</span><span class="p">,</span> <span class="n">source_border</span><span class="p">:</span> <span class="n">TemplateBorder</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlaquetteLayer</span><span class="p">:</span>
+    <span class="n">source_border_indices</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">get_border_indices</span><span class="p">(</span><span class="n">source_border</span><span class="p">)</span>
+    <span class="n">target_border_indices</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">get_border_indices</span><span class="p">(</span><span class="n">source_border</span><span class="o">.</span><span class="n">opposite</span><span class="p">())</span>
+    <span class="n">indices_mapping</span> <span class="o">=</span> <span class="n">source_border_indices</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">target_border_indices</span><span class="p">)</span>
+    <span class="n">plaquettes_mapping</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">ti</span><span class="p">:</span> <span class="n">target</span><span class="o">.</span><span class="n">plaquettes</span><span class="o">.</span><span class="n">collection</span><span class="p">[</span><span class="n">si</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">si</span><span class="p">,</span> <span class="n">ti</span> <span class="ow">in</span> <span class="n">indices_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">si</span> <span class="ow">in</span> <span class="n">target</span><span class="o">.</span><span class="n">plaquettes</span><span class="o">.</span><span class="n">collection</span>
+    <span class="p">}</span>
+    <span class="n">new_plaquettes</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">plaquettes</span><span class="o">.</span><span class="n">with_updated_plaquettes</span><span class="p">(</span><span class="n">plaquettes_mapping</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">PlaquetteLayer</span><span class="p">(</span>
+        <span class="n">target</span><span class="o">.</span><span class="n">template</span><span class="p">,</span> <span class="n">new_plaquettes</span><span class="p">,</span> <span class="n">target</span><span class="o">.</span><span class="n">trimmed_spatial_borders</span>
+    <span class="p">)</span>
 
 
 <div class="viewcode-block" id="TopologicalComputationGraph">
@@ -472,13 +502,20 @@ window.addEventListener("load", () => mermaid.run());
 <span class="k">class</span><span class="w"> </span><span class="nc">TopologicalComputationGraph</span><span class="p">:</span>
 <div class="viewcode-block" id="TopologicalComputationGraph.__init__">
 <a class="viewcode-back" href="../../../_autosummary/tqec.compile.TopologicalComputationGraph.html#tqec.compile.TopologicalComputationGraph.__init__">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalable_qubit_shape</span><span class="p">:</span> <span class="n">PhysicalQubitScalable2D</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">scalable_qubit_shape</span><span class="p">:</span> <span class="n">PhysicalQubitScalable2D</span><span class="p">,</span>
+        <span class="n">observable_builder</span><span class="p">:</span> <span class="n">ObservableBuilder</span><span class="p">,</span>
+        <span class="n">observables</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AbstractObservable</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Represents a topological computation with</span>
 <span class="sd">        :class:`~tqec.compile.blocks.block.Block` instances.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_blocks</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">LayoutPosition3D</span><span class="p">,</span> <span class="n">Block</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scalable_qubit_shape</span><span class="p">:</span> <span class="n">Final</span><span class="p">[</span><span class="n">PhysicalQubitScalable2D</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">scalable_qubit_shape</span>
-        <span class="p">)</span></div>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_observables</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">AbstractObservable</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">observables</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_observable_builder</span> <span class="o">=</span> <span class="n">observable_builder</span></div>
 
 
 <div class="viewcode-block" id="TopologicalComputationGraph.add_cube">
@@ -615,6 +652,97 @@ window.addEventListener("load", () => mermaid.run());
             <span class="p">[</span><span class="n">sink_border</span><span class="p">]</span>
         <span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_substitute_part_of_spatial_pipe</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pipe_pos</span><span class="p">:</span> <span class="n">LayoutPosition3D</span><span class="p">[</span><span class="n">LayoutPipePosition2D</span><span class="p">],</span>
+        <span class="n">neighbouring_block_layer</span><span class="p">:</span> <span class="n">PlaquetteLayer</span><span class="p">,</span>
+        <span class="n">spatial_block_border</span><span class="p">:</span> <span class="n">SpatialBlockBorder</span><span class="p">,</span>
+        <span class="n">temporal_pipe_border</span><span class="p">:</span> <span class="n">TemporalBlockBorder</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Substitutes the plaquettes of the pipe in ``pipe_pos`` using</span>
+<span class="sd">        ``neighbouring_block_layer``.</span>
+
+<span class="sd">        The pipe in ``pipe_pos`` is modified in-line.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pipe_pos: position of the pipe that should be modified.</span>
+<span class="sd">            neighbouring_block_layer: layer of the neighbouring block that</span>
+<span class="sd">                should partially override the pipe.</span>
+<span class="sd">            spatial_block_border: spatial border **of the block** that is being</span>
+<span class="sd">                replaced by the pipe at ``pipe_pos``.</span>
+<span class="sd">            temporal_pipe_border: temporal border of the pipe that should be</span>
+<span class="sd">                partially replaced by ``neighbouring_block_layer``.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: if ``pipe_pos not in self._blocks``.</span>
+<span class="sd">            NotImplementError: if the pipe layer that should be partially</span>
+<span class="sd">                substituted is not an instance of ``PlaquetteLayer``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pipe_block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocks</span><span class="p">[</span><span class="n">pipe_pos</span><span class="p">]</span>
+        <span class="n">pipe_layer_to_replace</span> <span class="o">=</span> <span class="n">pipe_block</span><span class="o">.</span><span class="n">get_temporal_layer_on_border</span><span class="p">(</span>
+            <span class="n">temporal_pipe_border</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pipe_layer_to_replace</span><span class="p">,</span> <span class="n">PlaquetteLayer</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;Due to the insertion of a temporal pipe, we need to replace &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;part of a pipe </span><span class="si">{</span><span class="n">temporal_pipe_border</span><span class="si">}</span><span class="s2"> border with part of the &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;temporal pipe. That is not possible because the &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">temporal_pipe_border</span><span class="si">}</span><span class="s2"> spatial pipe border is not an instance &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;of </span><span class="si">{</span><span class="n">PlaquetteLayer</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. Found an instance of &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">pipe_layer_to_replace</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># We now replace part of pipe_layer_to_replace</span>
+        <span class="n">replaced_pipe_layer</span> <span class="o">=</span> <span class="n">substitute_plaquettes</span><span class="p">(</span>
+            <span class="n">pipe_layer_to_replace</span><span class="p">,</span>
+            <span class="n">neighbouring_block_layer</span><span class="p">,</span>
+            <span class="n">spatial_block_border</span><span class="o">.</span><span class="n">to_template_border</span><span class="p">(),</span>
+        <span class="p">)</span>
+        <span class="n">replaced_block</span> <span class="o">=</span> <span class="n">pipe_block</span><span class="o">.</span><span class="n">with_temporal_borders_replaced</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">temporal_pipe_border</span><span class="p">:</span> <span class="n">replaced_pipe_layer</span><span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="n">replaced_block</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;No layer was removed&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_blocks</span><span class="p">[</span><span class="n">pipe_pos</span><span class="p">]</span> <span class="o">=</span> <span class="n">replaced_block</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_replace_temporal_border</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">block_pos</span><span class="p">:</span> <span class="n">BlockPosition3D</span><span class="p">,</span>
+        <span class="n">block_border</span><span class="p">:</span> <span class="n">TemporalBlockBorder</span><span class="p">,</span>
+        <span class="n">layer</span><span class="p">:</span> <span class="n">BaseLayer</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pblock</span> <span class="o">=</span> <span class="n">LayoutPosition3D</span><span class="o">.</span><span class="n">from_block_position</span><span class="p">(</span><span class="n">block_pos</span><span class="p">)</span>
+        <span class="n">block</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocks</span><span class="p">[</span><span class="n">pblock</span><span class="p">]</span>
+
+        <span class="c1"># First replace the layer on the temporal border of the block.</span>
+        <span class="n">layer_on_top_of_block</span> <span class="o">=</span> <span class="n">layer</span>
+        <span class="k">if</span> <span class="n">block</span><span class="o">.</span><span class="n">trimmed_spatial_borders</span><span class="p">:</span>
+            <span class="n">layer_on_top_of_block</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">with_spatial_borders_trimmed</span><span class="p">(</span>
+                <span class="n">block</span><span class="o">.</span><span class="n">trimmed_spatial_borders</span>
+            <span class="p">)</span>
+        <span class="n">new_block</span> <span class="o">=</span> <span class="n">block</span><span class="o">.</span><span class="n">with_temporal_borders_replaced</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">block_border</span><span class="p">:</span> <span class="n">layer_on_top_of_block</span><span class="p">}</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="n">new_block</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;No layer removal happened, only replacement&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_blocks</span><span class="p">[</span><span class="n">pblock</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_block</span>
+        <span class="c1"># Then, if the block has no trimmed spatial border (i.e., no spatial</span>
+        <span class="c1"># pipes), we can return because the replacement is over.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">block</span><span class="o">.</span><span class="n">trimmed_spatial_borders</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># Else, we also need to replace part of the spatial pipe. Note that for</span>
+        <span class="c1"># the moment this requires both the block and the spatial pipes to be</span>
+        <span class="c1"># implemented using template / plaquettes.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">layer</span><span class="p">,</span> <span class="n">PlaquetteLayer</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+                <span class="s2">&quot;Cannot substitute spatial pipe piece from a layer that &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;is not a </span><span class="si">{</span><span class="n">PlaquetteLayer</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> instance.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">trimmed_spatial_border</span> <span class="ow">in</span> <span class="n">block</span><span class="o">.</span><span class="n">trimmed_spatial_borders</span><span class="p">:</span>
+            <span class="n">pipe_pos</span> <span class="o">=</span> <span class="n">LayoutPosition3D</span><span class="o">.</span><span class="n">from_block_and_signed_direction</span><span class="p">(</span>
+                <span class="n">block_pos</span><span class="p">,</span> <span class="n">trimmed_spatial_border</span><span class="o">.</span><span class="n">value</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_substitute_part_of_spatial_pipe</span><span class="p">(</span>
+                <span class="n">pipe_pos</span><span class="p">,</span> <span class="n">layer</span><span class="p">,</span> <span class="n">trimmed_spatial_border</span><span class="p">,</span> <span class="n">block_border</span>
+            <span class="p">)</span>
+
     <span class="k">def</span><span class="w"> </span><span class="nf">_replace_temporal_borders</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="n">BlockPosition3D</span><span class="p">,</span> <span class="n">sink</span><span class="p">:</span> <span class="n">BlockPosition3D</span><span class="p">,</span> <span class="n">block</span><span class="p">:</span> <span class="n">Block</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -627,27 +755,17 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="s2">&quot;be handled separately.&quot;</span>
             <span class="p">)</span>
         <span class="c1"># Source</span>
-        <span class="n">psource</span> <span class="o">=</span> <span class="n">LayoutPosition3D</span><span class="o">.</span><span class="n">from_block_position</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
-        <span class="n">new_source</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocks</span><span class="p">[</span><span class="n">psource</span><span class="p">]</span><span class="o">.</span><span class="n">with_temporal_borders_replaced</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="n">TemporalBlockBorder</span><span class="o">.</span><span class="n">Z_POSITIVE</span><span class="p">:</span> <span class="n">block</span><span class="o">.</span><span class="n">get_temporal_border</span><span class="p">(</span>
-                    <span class="n">TemporalBlockBorder</span><span class="o">.</span><span class="n">Z_POSITIVE</span>
-                <span class="p">)</span>
-            <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_replace_temporal_border</span><span class="p">(</span>
+            <span class="n">source</span><span class="p">,</span>
+            <span class="n">TemporalBlockBorder</span><span class="o">.</span><span class="n">Z_POSITIVE</span><span class="p">,</span>
+            <span class="n">block</span><span class="o">.</span><span class="n">get_temporal_border</span><span class="p">(</span><span class="n">TemporalBlockBorder</span><span class="o">.</span><span class="n">Z_POSITIVE</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">assert</span> <span class="n">new_source</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;We did not remove any layers.&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_blocks</span><span class="p">[</span><span class="n">psource</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_source</span>
         <span class="c1"># Sink</span>
-        <span class="n">psink</span> <span class="o">=</span> <span class="n">LayoutPosition3D</span><span class="o">.</span><span class="n">from_block_position</span><span class="p">(</span><span class="n">sink</span><span class="p">)</span>
-        <span class="n">new_sink</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_blocks</span><span class="p">[</span><span class="n">psink</span><span class="p">]</span><span class="o">.</span><span class="n">with_temporal_borders_replaced</span><span class="p">(</span>
-            <span class="p">{</span>
-                <span class="n">TemporalBlockBorder</span><span class="o">.</span><span class="n">Z_NEGATIVE</span><span class="p">:</span> <span class="n">block</span><span class="o">.</span><span class="n">get_temporal_border</span><span class="p">(</span>
-                    <span class="n">TemporalBlockBorder</span><span class="o">.</span><span class="n">Z_NEGATIVE</span>
-                <span class="p">)</span>
-            <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_replace_temporal_border</span><span class="p">(</span>
+            <span class="n">sink</span><span class="p">,</span>
+            <span class="n">TemporalBlockBorder</span><span class="o">.</span><span class="n">Z_NEGATIVE</span><span class="p">,</span>
+            <span class="n">block</span><span class="o">.</span><span class="n">get_temporal_border</span><span class="p">(</span><span class="n">TemporalBlockBorder</span><span class="o">.</span><span class="n">Z_NEGATIVE</span><span class="p">),</span>
         <span class="p">)</span>
-        <span class="k">assert</span> <span class="n">new_sink</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;We did not remove any layers.&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_blocks</span><span class="p">[</span><span class="n">psink</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_sink</span>
 
 <div class="viewcode-block" id="TopologicalComputationGraph.add_pipe">
 <a class="viewcode-back" href="../../../_autosummary/tqec.compile.TopologicalComputationGraph.html#tqec.compile.TopologicalComputationGraph.add_pipe">[docs]</a>
@@ -719,7 +837,78 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="p">)</span>
                     <span class="k">for</span> <span class="n">blocks</span> <span class="ow">in</span> <span class="n">blocks_by_z</span>
                 <span class="p">]</span>
-            <span class="p">)</span>
+            <span class="p">),</span>
+            <span class="n">abstract_observables</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_observables</span><span class="p">,</span>
+            <span class="n">observable_builder</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_observable_builder</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="TopologicalComputationGraph.generate_stim_circuit">
+<a class="viewcode-back" href="../../../_autosummary/tqec.compile.TopologicalComputationGraph.html#tqec.compile.TopologicalComputationGraph.generate_stim_circuit">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_stim_circuit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">noise_model</span><span class="p">:</span> <span class="n">NoiseModel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">manhattan_radius</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">detector_database</span><span class="p">:</span> <span class="n">DetectorDatabase</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">stim</span><span class="o">.</span><span class="n">Circuit</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the ``stim.Circuit`` from the compiled graph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            k: scale factor of the templates.</span>
+<span class="sd">            noise_models: noise models to be applied to the circuit.</span>
+<span class="sd">            manhattan_radius: radius considered to compute detectors.</span>
+<span class="sd">                Detectors are not computed and added to the circuit if this</span>
+<span class="sd">                argument is negative.</span>
+<span class="sd">            detector_database: an instance to retrieve from / store in detectors</span>
+<span class="sd">                that are computed as part of the circuit generation.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A compiled stim circuit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">circuit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_layer_tree</span><span class="p">()</span><span class="o">.</span><span class="n">generate_circuit</span><span class="p">(</span>
+            <span class="n">k</span><span class="p">,</span> <span class="n">manhattan_radius</span><span class="o">=</span><span class="n">manhattan_radius</span><span class="p">,</span> <span class="n">detector_database</span><span class="o">=</span><span class="n">detector_database</span>
+        <span class="p">)</span>
+        <span class="c1"># If provided, apply the noise model.</span>
+        <span class="k">if</span> <span class="n">noise_model</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">circuit</span> <span class="o">=</span> <span class="n">noise_model</span><span class="o">.</span><span class="n">noisy_circuit</span><span class="p">(</span><span class="n">circuit</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">circuit</span></div>
+
+
+<div class="viewcode-block" id="TopologicalComputationGraph.generate_crumble_url">
+<a class="viewcode-back" href="../../../_autosummary/tqec.compile.TopologicalComputationGraph.html#tqec.compile.TopologicalComputationGraph.generate_crumble_url">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">generate_crumble_url</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">manhattan_radius</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="n">detector_database</span><span class="p">:</span> <span class="n">DetectorDatabase</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">add_polygons</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the Crumble URL from the compiled graph.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            k: scaling factor.</span>
+<span class="sd">            manhattan_radius: Parameter for the automatic computation of detectors.</span>
+<span class="sd">                Should be large enough so that flows canceling each other to</span>
+<span class="sd">                form a detector are strictly contained in plaquettes that are at</span>
+<span class="sd">                most at a distance of ``manhattan_radius`` from the central</span>
+<span class="sd">                plaquette. Detector computation runtime grows with this parameter,</span>
+<span class="sd">                so you should try to keep it to its minimum. A value too low might</span>
+<span class="sd">                produce invalid detectors.</span>
+<span class="sd">            detector_database: existing database of detectors that is used to</span>
+<span class="sd">                avoid computing detectors if the database already contains them.</span>
+<span class="sd">                Default to `None` which result in not using any kind of database</span>
+<span class="sd">                and unconditionally performing the detector computation.</span>
+<span class="sd">            add_polygons: whether to include polygons in the Crumble URL. If</span>
+<span class="sd">                ``True``, the polygons representing the stabilizers will be generated</span>
+<span class="sd">                based on the RPNG information of underlying plaquettes and add</span>
+<span class="sd">                to the Crumble URL.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            a string representing the Crumble URL of the quantum circuit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_layer_tree</span><span class="p">()</span><span class="o">.</span><span class="n">generate_crumble_url</span><span class="p">(</span>
+            <span class="n">k</span><span class="p">,</span> <span class="n">manhattan_radius</span><span class="p">,</span> <span class="n">detector_database</span><span class="p">,</span> <span class="n">add_polygons</span><span class="o">=</span><span class="n">add_polygons</span>
         <span class="p">)</span></div>
 </div>
 
