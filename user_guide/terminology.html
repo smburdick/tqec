@@ -32,6 +32,9 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -44,6 +47,10 @@
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -145,15 +152,15 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../contributor_guide.html">
-    Contributor Guide
+  <a class="nav-link nav-internal" href="../gallery/index.html">
+    Gallery
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../gallery/index.html">
-    Gallery
+  <a class="nav-link nav-internal" href="../contributor_guide.html">
+    Contributor Guide
   </a>
 </li>
 
@@ -164,6 +171,23 @@
   </a>
 </li>
 
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../ethical_notice.html">
+    Ethical Notice
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
   </ul>
 </nav></div>
       
@@ -280,13 +304,6 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../contributor_guide.html">
-    Contributor Guide
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../gallery/index.html">
     Gallery
   </a>
@@ -294,8 +311,22 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributor_guide.html">
+    Contributor Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../api.html">
     API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../ethical_notice.html">
+    Ethical Notice
   </a>
 </li>
 
@@ -361,12 +392,16 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Terminology</a></li>
 <li class="toctree-l1"><a class="reference internal" href="current_limitations.html">Current limitations</a></li>
 </ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced topics</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="extended_stabilizers_implementation.html">Extended stabilizers implementation</a></li>
+</ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="build_computations.html">Build Computations</a></li>
-<li class="toctree-l1"><a class="reference internal" href="collada_interop.html">COLLADA Interoperability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="detectors/detector_computation.html">Detectors Computation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="build_computation.html">Build Computations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="collada_interop.html">Collada</a></li>
 <li class="toctree-l1"><a class="reference internal" href="detailed_plots.html">Detailed plotting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cli_examples.html">tqec CLI</a></li>
 </ul>
 </div>
 </nav></div>
@@ -428,11 +463,11 @@
                 <article class="bd-article">
                   
   <section id="terminology">
-<h1>Terminology<a class="headerlink" href="#terminology" title="Link to this heading">#</a></h1>
+<span id="id1"></span><h1>Terminology<a class="headerlink" href="#terminology" title="Link to this heading">#</a></h1>
 <p>This page provides definitions for some important terms used in the <code class="docutils literal notranslate"><span class="pre">tqec</span></code> codebase.
 Also, we highlight and expand on some concepts that can not fit in the <a class="reference internal" href="../api.html#api"><span class="std std-ref">API Reference</span></a>.</p>
 <section id="block">
-<span id="id1"></span><h2>Block<a class="headerlink" href="#block" title="Link to this heading">#</a></h2>
+<span id="id2"></span><h2>Block<a class="headerlink" href="#block" title="Link to this heading">#</a></h2>
 <p>Represents quantum operations that encode some logical properties and are local in spacetime.
 The quantum operations within the block are carefully designed to map logical operators in spacetime correctly.
 At the same time, these operations generate syndrome information that protects the logical data, ensuring fault tolerance.</p>
@@ -445,11 +480,11 @@ This is the essence of fault-tolerant quantum computation.</p>
 <li><p>The axes used for labeling are as shown in the figure below. <code class="docutils literal notranslate"><span class="pre">RGB</span></code> axes are synonymous to <code class="docutils literal notranslate"><span class="pre">XYZ</span></code> axes.</p></li>
 <li><p>We begin by labeling the boundary that is facing the X-axis first, then the one that is facing the Y-axis followed by the one facing the Z-axis.</p></li>
 </ul>
-<figure class="align-center" id="id6">
+<figure class="align-center" id="id10">
 <a class="reference internal image-reference" href="../_images/axes_convention.png"><img alt="../_images/axes_convention.png" src="../_images/axes_convention.png" style="width: 200px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">X, Y, Z axes</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+<p><span class="caption-text">X, Y, Z axes</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The labels based on color of the boundaries are provided in the table below.</p>
@@ -480,18 +515,18 @@ This is the essence of fault-tolerant quantum computation.</p>
 </div>
 </section>
 <section id="cube">
-<span id="id2"></span><h2>Cube<a class="headerlink" href="#cube" title="Link to this heading">#</a></h2>
+<span id="id3"></span><h2>Cube<a class="headerlink" href="#cube" title="Link to this heading">#</a></h2>
 <p>Represents the fundamental building <a class="reference internal" href="#block"><span class="std std-ref">block</span></a> that occupies certain spacetime volume. The kind of cube determines the
 quantum operations that are applied within the cube. Currently we have the following kinds of cubes, and more cubes can be added in the future:</p>
-<figure class="align-center" id="id7">
+<figure class="align-center" id="id11">
 <a class="reference internal image-reference" href="../_images/cubes.png"><img alt="../_images/cubes.png" src="../_images/cubes.png" style="width: 400px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Different kinds of cubes</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+<p><span class="caption-text">Different kinds of cubes</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <section id="zxcube">
-<span id="id3"></span><h3><a class="reference internal" href="../_autosummary/tqec.computation.ZXCube.html#tqec.computation.ZXCube" title="tqec.computation.ZXCube"><code class="xref py py-class docutils literal notranslate"><span class="pre">ZXCube</span></code></a><a class="headerlink" href="#zxcube" title="Link to this heading">#</a></h3>
+<span id="id4"></span><h3><code class="xref py py-class docutils literal notranslate"><span class="pre">ZXCube</span></code><a class="headerlink" href="#zxcube" title="Link to this heading">#</a></h3>
 <p>A cube whose faces are of <code class="docutils literal notranslate"><span class="pre">X</span></code> (red) or <code class="docutils literal notranslate"><span class="pre">Z</span></code> (blue) type. We assume each pair of opposite faces are of the same type.
 Then the kind can be specified by the type of the faces looking from the XYZ directions. For example, the <cite>ZXZ</cite> cube in the
 figure above has <code class="docutils literal notranslate"><span class="pre">Z</span></code> type faces along the X direction, <code class="docutils literal notranslate"><span class="pre">X</span></code> type faces along the Y direction, and <code class="docutils literal notranslate"><span class="pre">Z</span></code> type faces along the Z direction.</p>
@@ -503,11 +538,11 @@ is of <code class="docutils literal notranslate"><span class="pre">X</span></cod
 <h4>Spatial Cube<a class="headerlink" href="#spatial-cube" title="Link to this heading">#</a></h4>
 <p>Unlike the other <code class="docutils literal notranslate"><span class="pre">ZXCube</span></code>, <code class="docutils literal notranslate"><span class="pre">XXZ</span></code> and <code class="docutils literal notranslate"><span class="pre">ZZX</span></code> cubes have all the spatial boundaries in the same basis. These cubes cannot connect to temporal pipes.
 When connected with two or more spatial pipes, they form <strong>spatial junctions</strong>:</p>
-<figure class="align-center" id="id8">
+<figure class="align-center" id="id12">
 <a class="reference internal image-reference" href="../_images/spatial_junctions.png"><img alt="../_images/spatial_junctions.png" src="../_images/spatial_junctions.png" style="width: 450px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Spatial junctions</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+<p><span class="caption-text">Spatial junctions</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The circuits that implement these spatial cubes are more complex than the circuits for the other cubes, and special care needs to be taken to avoid
@@ -515,38 +550,38 @@ the hook errors from decreasing the circuit-level code distance.</p>
 </section>
 </section>
 <section id="yhalfcube">
-<h3><a class="reference internal" href="../_autosummary/tqec.computation.YHalfCube.html#tqec.computation.YHalfCube" title="tqec.computation.YHalfCube"><code class="xref py py-class docutils literal notranslate"><span class="pre">YHalfCube</span></code></a><a class="headerlink" href="#yhalfcube" title="Link to this heading">#</a></h3>
+<h3><code class="xref py py-class docutils literal notranslate"><span class="pre">YHalfCube</span></code><a class="headerlink" href="#yhalfcube" title="Link to this heading">#</a></h3>
 <p>A green cube representing inplace Y-basis logical initialization or measurement as proposed in <a class="reference external" href="https://quantum-journal.org/papers/q-2024-04-08-1310/">this paper</a>.
 The cube’s function, whether for initialization or measurement, is determined by its connection to other cubes, either upwards or downwards.</p>
 <p>A <code class="docutils literal notranslate"><span class="pre">YHalfCube</span></code> occupies <span class="math notranslate nohighlight">\(\approx d^3 /2\)</span> spacetime volume, where <span class="math notranslate nohighlight">\(d\)</span> is the code distance.</p>
 </section>
 <section id="port">
-<h3><a class="reference internal" href="../_autosummary/tqec.computation.Port.html#tqec.computation.Port" title="tqec.computation.Port"><code class="xref py py-class docutils literal notranslate"><span class="pre">Port</span></code></a><a class="headerlink" href="#port" title="Link to this heading">#</a></h3>
+<h3><code class="xref py py-class docutils literal notranslate"><span class="pre">Port</span></code><a class="headerlink" href="#port" title="Link to this heading">#</a></h3>
 <p>A port is a special type of cube that represents the input or output of a logical computation.
 It functions as a virtual cube, serving only as a placeholder for other sources or sinks of logical information.
 Therefore, ports are not visualized in spacetime diagrams and occupy zero spacetime volume.</p>
 </section>
 </section>
 <section id="pipe">
-<span id="id4"></span><h2>Pipe<a class="headerlink" href="#pipe" title="Link to this heading">#</a></h2>
+<span id="id5"></span><h2>Pipe<a class="headerlink" href="#pipe" title="Link to this heading">#</a></h2>
 <p>Represents the <a class="reference internal" href="#block"><span class="std std-ref">block</span></a> that maps logical operators between different <a class="reference internal" href="#cube"><span class="std std-ref">cubes</span></a>.
 There are various types of pipes based on the boundary types and connection direction. Additionally,
 Hadamard transitions may occur in the pipe, which changes the basis of the logical operator passing through it.</p>
-<figure class="align-center" id="id9">
+<figure class="align-center" id="id13">
 <a class="reference internal image-reference" href="../_images/pipes.png"><img alt="../_images/pipes.png" src="../_images/pipes.png" style="width: 500px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Different types of pipes</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+<p><span class="caption-text">Different types of pipes</span><a class="headerlink" href="#id13" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p><strong>It’s important to note that the pipe does not occupy spacetime volume by itself.</strong>
 Instead, the operations within the pipe replace the operations in the cubes it connects.
 The pipe’s visual representation in the diagram is exaggerated for clarity.</p>
-<figure class="align-center" id="id10">
+<figure class="align-center" id="id14">
 <a class="reference internal image-reference" href="../_images/pipe_connects_cubes.png"><img alt="../_images/pipe_connects_cubes.png" src="../_images/pipe_connects_cubes.png" style="width: 400px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Example of pipes connecting cubes</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
+<p><span class="caption-text">Example of pipes connecting cubes</span><a class="headerlink" href="#id14" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Each cube in the figure above should initially be thought of as an</p>
@@ -564,11 +599,11 @@ And the mapping implements the desired logical computation up to some sign that 
 measurements and stabilizer measurements included in the correlation surface. In <code class="docutils literal notranslate"><span class="pre">tqec</span></code>, we assume all the qubits are initialized
 to the +1 eigenstate of the operators. Therefore, the sign is determined by the parity of the measurements.</p>
 <p>Here we take the movement of a logical qubit for example:</p>
-<figure class="align-center" id="id11">
+<figure class="align-center" id="id15">
 <a class="reference internal image-reference" href="../_images/logical_qubit_movement.png"><img alt="../_images/logical_qubit_movement.png" src="../_images/logical_qubit_movement.png" style="width: 600px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Movement of a logical qubit</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
+<p><span class="caption-text">Movement of a logical qubit</span><a class="headerlink" href="#id15" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>The movement operation maps <span class="math notranslate nohighlight">\(Z_L, X_L\)</span> logical operators at input to <span class="math notranslate nohighlight">\(Z_L^{\prime}, X_L^{\prime}\)</span> at output.
@@ -587,11 +622,11 @@ a sign relationship between <span class="math notranslate nohighlight">\(Z_L\)</
 <p>Note that the sign relationship described above depends on the measurement outcomes, which are error-prone and need
 error correction.</p>
 <p>Tracking the process of logical operator movement above, we can get the following two correlation surfaces:</p>
-<figure class="align-center" id="id12">
+<figure class="align-center" id="id16">
 <a class="reference internal image-reference" href="../_images/correlation_surface.png"><img alt="../_images/correlation_surface.png" src="../_images/correlation_surface.png" style="width: 200px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Correlation surfaces, red for X and blue for Z</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
+<p><span class="caption-text">Correlation surfaces, red for X and blue for Z</span><a class="headerlink" href="#id16" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>You can think of constructing the correlation surface as moving a line of logical operators through the structure,
@@ -599,7 +634,7 @@ only allowing the logical operators to attach to walls with the same basis.
 The physical qubit measurements and stabilizer measurements in the correlation surface determine the sign relationship between the logical operators at the input and output.</p>
 </section>
 <section id="template">
-<span id="id5"></span><h2>Template<a class="headerlink" href="#template" title="Link to this heading">#</a></h2>
+<span id="id6"></span><h2>Template<a class="headerlink" href="#template" title="Link to this heading">#</a></h2>
 <p>In <code class="docutils literal notranslate"><span class="pre">tqec</span></code>, a template is an object that can, from an integer value representing the
 scaling factor $k$ (with the code distance $d$ checking $d = 2k + 1$ for the surface code),
 can generate a $2$-dimensional array of positive integers.</p>
@@ -623,11 +658,11 @@ by convention.</p>
 <p class="admonition-title">Example</p>
 <p>The $2$-dimensional array given as example above can represent the usual logical qubit
 from surface code research papers:</p>
-<figure class="align-center" id="id13">
+<figure class="align-center" id="id17">
 <a class="reference internal image-reference" href="../_images/logical_qubit1.png"><img alt="../_images/logical_qubit1.png" src="../_images/logical_qubit1.png" style="width: 200px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Usual tiling of plaquettes to build a logical qubit using the surface code.</span><a class="headerlink" href="#id13" title="Link to this image">#</a></p>
+<p><span class="caption-text">Usual tiling of plaquettes to build a logical qubit using the surface code.</span><a class="headerlink" href="#id17" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>To see the correspondence more clearly, one can map the indices <code class="docutils literal notranslate"><span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">2</span></code>,
@@ -694,55 +729,58 @@ a few qubits that are spatially close on a $2$-dimensional array grid of qubits.
 <p>Temporal locality means that the quantum circuit depth should be constant and short.</p>
 <p>Explicit gate scheduling requires each and every gate in the circuit to be explicitly
 scheduled at a precise time (or moment) in the quantum circuit.</p>
-<p>These condition make plaquettes easily representable as visual $2$-dimensional pictures.</p>
+<p>These condition make plaquettes easily representable as visual $2$-dimensional pictures. It is worth noting that the
+numbering of a plaquette represents the order in which the data qubits interact with the measure qubit. The interaction
+order resembles a <code class="docutils literal notranslate"><span class="pre">Z</span></code> or inverted <code class="docutils literal notranslate"><span class="pre">N</span></code> shape to ensure commutation relationships with the neighboring stabilizers <a class="footnote-reference brackets" href="#footcite-fowler-2012" id="id7" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a><a class="footnote-reference brackets" href="#footcite-tomita-2014" id="id8" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a>.
+The examples below utilize the <code class="docutils literal notranslate"><span class="pre">Z</span></code> shape.</p>
 <div class="admonition-examples admonition">
 <p class="admonition-title">Examples</p>
 <p>One of the plaquette measuring a <code class="docutils literal notranslate"><span class="pre">XXXX</span></code> stabilizer can be represented as follow</p>
-<figure class="align-center" id="id14">
+<figure class="align-center" id="id18">
 <a class="reference internal image-reference" href="../_images/plaquette_xxxx.png"><img alt="../_images/plaquette_xxxx.png" src="../_images/plaquette_xxxx.png" style="width: 100px;" />
 </a>
 <figcaption>
-<p><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">XXXX</span></code> plaquette.</span><a class="headerlink" href="#id14" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>and corresponds to the following quantum circuit</p>
-<figure class="align-center" id="id15">
-<a class="reference internal image-reference" href="../_images/circuit_xxxx.png"><img alt="../_images/circuit_xxxx.png" src="../_images/circuit_xxxx.png" style="width: 500px;" />
-</a>
-<figcaption>
-<p><span class="caption-text">Quantum circuit measuring the <code class="docutils literal notranslate"><span class="pre">XXXX</span></code> stabilizer.</span><a class="headerlink" href="#id15" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>One of the plaquette measuring a <code class="docutils literal notranslate"><span class="pre">ZZZZ</span></code> stabilizer can be represented as follow</p>
-<figure class="align-center" id="id16">
-<a class="reference internal image-reference" href="../_images/plaquette_zzzz.png"><img alt="../_images/plaquette_zzzz.png" src="../_images/plaquette_zzzz.png" style="width: 100px;" />
-</a>
-<figcaption>
-<p><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">ZZZZ</span></code> plaquette.</span><a class="headerlink" href="#id16" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>and corresponds to the following quantum circuit</p>
-<figure class="align-center" id="id17">
-<a class="reference internal image-reference" href="../_images/circuit_zzzz.png"><img alt="../_images/circuit_zzzz.png" src="../_images/circuit_zzzz.png" style="width: 500px;" />
-</a>
-<figcaption>
-<p><span class="caption-text">Quantum circuit measuring the <code class="docutils literal notranslate"><span class="pre">ZZZZ</span></code> stabilizer.</span><a class="headerlink" href="#id17" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>One of the plaquette measuring a <code class="docutils literal notranslate"><span class="pre">XX</span></code> stabilizer can be represented as follow</p>
-<figure class="align-center" id="id18">
-<a class="reference internal image-reference" href="../_images/plaquette_xx_up.png"><img alt="../_images/plaquette_xx_up.png" src="../_images/plaquette_xx_up.png" style="width: 100px;" />
-</a>
-<figcaption>
-<p><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">XX</span></code> plaquette.</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
+<p><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">XXXX</span></code> plaquette.</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>and corresponds to the following quantum circuit</p>
 <figure class="align-center" id="id19">
+<a class="reference internal image-reference" href="../_images/circuit_xxxx.png"><img alt="../_images/circuit_xxxx.png" src="../_images/circuit_xxxx.png" style="width: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Quantum circuit measuring the <code class="docutils literal notranslate"><span class="pre">XXXX</span></code> stabilizer.</span><a class="headerlink" href="#id19" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>One of the plaquette measuring a <code class="docutils literal notranslate"><span class="pre">ZZZZ</span></code> stabilizer can be represented as follow</p>
+<figure class="align-center" id="id20">
+<a class="reference internal image-reference" href="../_images/plaquette_zzzz.png"><img alt="../_images/plaquette_zzzz.png" src="../_images/plaquette_zzzz.png" style="width: 100px;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">ZZZZ</span></code> plaquette.</span><a class="headerlink" href="#id20" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>and corresponds to the following quantum circuit</p>
+<figure class="align-center" id="id21">
+<a class="reference internal image-reference" href="../_images/circuit_zzzz.png"><img alt="../_images/circuit_zzzz.png" src="../_images/circuit_zzzz.png" style="width: 500px;" />
+</a>
+<figcaption>
+<p><span class="caption-text">Quantum circuit measuring the <code class="docutils literal notranslate"><span class="pre">ZZZZ</span></code> stabilizer.</span><a class="headerlink" href="#id21" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>One of the plaquette measuring a <code class="docutils literal notranslate"><span class="pre">XX</span></code> stabilizer can be represented as follow</p>
+<figure class="align-center" id="id22">
+<a class="reference internal image-reference" href="../_images/plaquette_xx_up.png"><img alt="../_images/plaquette_xx_up.png" src="../_images/plaquette_xx_up.png" style="width: 100px;" />
+</a>
+<figcaption>
+<p><span class="caption-text"><code class="docutils literal notranslate"><span class="pre">XX</span></code> plaquette.</span><a class="headerlink" href="#id22" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>and corresponds to the following quantum circuit</p>
+<figure class="align-center" id="id23">
 <a class="reference internal image-reference" href="../_images/circuit_xx_up.png"><img alt="../_images/circuit_xx_up.png" src="../_images/circuit_xx_up.png" style="width: 500px;" />
 </a>
 <figcaption>
-<p><span class="caption-text">Quantum circuit measuring the <code class="docutils literal notranslate"><span class="pre">XX</span></code> stabilizer.</span><a class="headerlink" href="#id19" title="Link to this image">#</a></p>
+<p><span class="caption-text">Quantum circuit measuring the <code class="docutils literal notranslate"><span class="pre">XX</span></code> stabilizer.</span><a class="headerlink" href="#id23" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -751,6 +789,21 @@ scheduled at a precise time (or moment) in the quantum circuit.</p>
 <h2>Detector<a class="headerlink" href="#detector" title="Link to this heading">#</a></h2>
 <p>In the <code class="docutils literal notranslate"><span class="pre">tqec</span></code> library, a detector is a set of one or more measurements that are
 supposed to have a deterministic parity in the absence of errors.</p>
+</section>
+<section id="references">
+<h2>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id9">
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="footcite-fowler-2012" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id7">1</a><span class="fn-bracket">]</span></span>
+<p>Austin G. Fowler, Matteo Mariantoni, John M. Martinis, and Andrew N. Cleland. Surface codes: towards practical large-scale quantum computation. <em>Physical Review A</em>, September 2012. URL: <a class="reference external" href="http://dx.doi.org/10.1103/PhysRevA.86.032324">http://dx.doi.org/10.1103/PhysRevA.86.032324</a>, <a class="reference external" href="https://doi.org/10.1103/physreva.86.032324">doi:10.1103/physreva.86.032324</a>.</p>
+</aside>
+<aside class="footnote brackets" id="footcite-tomita-2014" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id8">2</a><span class="fn-bracket">]</span></span>
+<p>Yu Tomita and Krysta M. Svore. Low-distance surface codes under realistic quantum noise. <em>Physical Review A</em>, December 2014. URL: <a class="reference external" href="http://dx.doi.org/10.1103/PhysRevA.90.062320">http://dx.doi.org/10.1103/PhysRevA.90.062320</a>, <a class="reference external" href="https://doi.org/10.1103/physreva.90.062320">doi:10.1103/physreva.90.062320</a>.</p>
+</aside>
+</aside>
+</div>
 </section>
 </section>
 
@@ -817,6 +870,7 @@ supposed to have a deterministic parity in the absence of errors.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sub-template">Sub-template</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plaquette">Plaquette</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detector">Detector</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References</a></li>
 </ul>
   </nav></div>
 
@@ -854,7 +908,7 @@ supposed to have a deterministic parity in the absence of errors.</p>
 
   <p class="copyright">
     
-      © Copyright 2024, TQEC Community.
+      © Copyright 2024 - 2025, TQEC Community.
       <br/>
     
   </p>

@@ -31,6 +31,9 @@
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -43,6 +46,10 @@
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
@@ -148,15 +155,15 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../contributor_guide.html">
-    Contributor Guide
+  <a class="nav-link nav-internal" href="../../../gallery/index.html">
+    Gallery
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../gallery/index.html">
-    Gallery
+  <a class="nav-link nav-internal" href="../../../contributor_guide.html">
+    Contributor Guide
   </a>
 </li>
 
@@ -167,6 +174,23 @@ window.addEventListener("load", () => mermaid.run());
   </a>
 </li>
 
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../ethical_notice.html">
+    Ethical Notice
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
   </ul>
 </nav></div>
       
@@ -281,13 +305,6 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../contributor_guide.html">
-    Contributor Guide
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../gallery/index.html">
     Gallery
   </a>
@@ -295,8 +312,22 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributor_guide.html">
+    Contributor Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../api.html">
     API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../ethical_notice.html">
+    Ethical Notice
   </a>
 </li>
 
@@ -406,8 +437,7 @@ window.addEventListener("load", () => mermaid.run());
                 <article class="bd-article">
                   
   <h1>Source code for tqec.gallery.move_rotation</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Block graph that rotates boundary types by moving logical qubit in</span>
-<span class="sd">spacetime.&quot;&quot;&quot;</span>
+<span></span><span class="sd">&quot;&quot;&quot;Block graph that rotates boundary types by moving logical qubit in spacetime.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.computation.block_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlockGraph</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.computation.cube</span><span class="w"> </span><span class="kn">import</span> <span class="n">ZXCube</span>
@@ -427,6 +457,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">    Returns:</span>
 <span class="sd">        A :py:class:`~tqec.computation.block_graph.BlockGraph` instance representing</span>
 <span class="sd">        the move-rotation operation.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">g</span> <span class="o">=</span> <span class="n">BlockGraph</span><span class="p">(</span><span class="s2">&quot;Move Rotation&quot;</span><span class="p">)</span>
     <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span>
@@ -491,7 +522,7 @@ window.addEventListener("load", () => mermaid.run());
 
   <p class="copyright">
     
-      © Copyright 2024, TQEC Community.
+      © Copyright 2024 - 2025, TQEC Community.
       <br/>
     
   </p>

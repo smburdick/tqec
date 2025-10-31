@@ -31,6 +31,9 @@
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -43,6 +46,10 @@
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
@@ -148,15 +155,15 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../../contributor_guide.html">
-    Contributor Guide
+  <a class="nav-link nav-internal" href="../../../../gallery/index.html">
+    Gallery
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../../gallery/index.html">
-    Gallery
+  <a class="nav-link nav-internal" href="../../../../contributor_guide.html">
+    Contributor Guide
   </a>
 </li>
 
@@ -167,6 +174,23 @@ window.addEventListener("load", () => mermaid.run());
   </a>
 </li>
 
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../ethical_notice.html">
+    Ethical Notice
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
   </ul>
 </nav></div>
       
@@ -281,13 +305,6 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../../contributor_guide.html">
-    Contributor Guide
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../../gallery/index.html">
     Gallery
   </a>
@@ -295,8 +312,22 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contributor_guide.html">
+    Contributor Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../../api.html">
     API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../ethical_notice.html">
+    Ethical Notice
   </a>
 </li>
 
@@ -410,17 +441,17 @@ window.addEventListener("load", () => mermaid.run());
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">fractions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fraction</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Mapping</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">pyzx</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">zx</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib.figure</span><span class="w"> </span><span class="kn">import</span> <span class="n">Figure</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">mpl_toolkits.mplot3d.axes3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes3D</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyzx.graph.graph_s</span><span class="w"> </span><span class="kn">import</span> <span class="n">GraphS</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyzx.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">EdgeType</span><span class="p">,</span> <span class="n">VertexType</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.computation.block_graph</span><span class="w"> </span><span class="kn">import</span> <span class="n">BlockGraph</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.interop.pyzx.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">cube_kind_to_zx</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TQECException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TQECError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.position</span><span class="w"> </span><span class="kn">import</span> <span class="n">Direction3D</span><span class="p">,</span> <span class="n">Position3D</span>
 
 
@@ -430,7 +461,7 @@ window.addEventListener("load", () => mermaid.run());
 <div class="viewcode-block" id="PositionedZX.__init__">
 <a class="viewcode-back" href="../../../../_autosummary/tqec.interop.PositionedZX.html#tqec.interop.PositionedZX.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">g</span><span class="p">:</span> <span class="n">GraphS</span><span class="p">,</span> <span class="n">positions</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Position3D</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;A ZX graph with 3D positions and additional constraints.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Represent a ZX graph with 3D positions and additional constraints.</span>
 
 <span class="sd">        The constraints are:</span>
 
@@ -446,9 +477,9 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">            positions: A dictionary mapping vertex IDs to their 3D positions.</span>
 
 <span class="sd">        Raises:</span>
-<span class="sd">            TQECException: If the constraints are not satisfied.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            TQECError: If the constraints are not satisfied.</span>
 
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">check_preconditions</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">positions</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_g</span> <span class="o">=</span> <span class="n">g</span>
@@ -462,14 +493,12 @@ window.addEventListener("load", () => mermaid.run());
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the preconditions for the ZX graph with 3D positions.&quot;&quot;&quot;</span>
         <span class="c1"># 1. Check the vertex IDs in the graph match the positions</span>
         <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_set</span><span class="p">()</span> <span class="o">!=</span> <span class="nb">set</span><span class="p">(</span><span class="n">positions</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-            <span class="k">raise</span> <span class="n">TQECException</span><span class="p">(</span>
-                <span class="s2">&quot;The vertex IDs in the ZX graph and the positions do not match.&quot;</span>
-            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">TQECError</span><span class="p">(</span><span class="s2">&quot;The vertex IDs in the ZX graph and the positions do not match.&quot;</span><span class="p">)</span>
         <span class="c1"># 2. Check the neighbors are all shifted by 1 in the 3D positions</span>
         <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edge_set</span><span class="p">():</span>
             <span class="n">ps</span><span class="p">,</span> <span class="n">pt</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">s</span><span class="p">],</span> <span class="n">positions</span><span class="p">[</span><span class="n">t</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">ps</span><span class="o">.</span><span class="n">is_neighbour</span><span class="p">(</span><span class="n">pt</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="n">TQECException</span><span class="p">(</span>
+                <span class="k">raise</span> <span class="n">TQECError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s2">&quot;The 3D positions of the endpoints of the edge </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2">--</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2"> &quot;</span>
                     <span class="sa">f</span><span class="s2">&quot;must be neighbors, but got </span><span class="si">{</span><span class="n">ps</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">pt</span><span class="si">}</span><span class="s2">.&quot;</span>
                 <span class="p">)</span>
@@ -478,35 +507,33 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">vt</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="n">phase</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">phase</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span><span class="n">vt</span><span class="p">,</span> <span class="n">phase</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-                <span class="p">(</span><span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                <span class="p">(</span><span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
-                <span class="p">(</span><span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">BOUNDARY</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">VertexType</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">VertexType</span><span class="o">.</span><span class="n">X</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+                <span class="p">(</span><span class="n">VertexType</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span>
+                <span class="p">(</span><span class="n">VertexType</span><span class="o">.</span><span class="n">BOUNDARY</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
             <span class="p">]:</span>
-                <span class="k">raise</span> <span class="n">TQECException</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;Unsupported vertex type and phase: </span><span class="si">{</span><span class="n">vt</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">phase</span><span class="si">}</span><span class="s2">.&quot;</span>
-                <span class="p">)</span>
+                <span class="k">raise</span> <span class="n">TQECError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported vertex type and phase: </span><span class="si">{</span><span class="n">vt</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">phase</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
             <span class="c1"># 4. Check Boundary and Z(1/2) spiders are dangling, additionally</span>
             <span class="c1"># Z(1/2) connects to time direction</span>
-            <span class="k">if</span> <span class="n">vt</span> <span class="o">==</span> <span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">BOUNDARY</span> <span class="ow">or</span> <span class="n">phase</span> <span class="o">==</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">vt</span> <span class="o">==</span> <span class="n">VertexType</span><span class="o">.</span><span class="n">BOUNDARY</span> <span class="ow">or</span> <span class="n">phase</span> <span class="o">==</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_degree</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">TQECException</span><span class="p">(</span>
-                        <span class="s2">&quot;Boundary or Z(1/2) spider must be dangling, but got &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="si">}</span><span class="s2"> neighbors.&quot;</span>
+                    <span class="k">raise</span> <span class="n">TQECError</span><span class="p">(</span>
+                        <span class="s2">&quot;Boundary or Z(1/2) spider must be dangling, but &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">v</span><span class="p">))</span><span class="si">}</span><span class="s2"> neighbors.&quot;</span>
                     <span class="p">)</span>
                 <span class="k">if</span> <span class="n">phase</span> <span class="o">==</span> <span class="n">Fraction</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
                     <span class="n">nb</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">v</span><span class="p">)))</span>
                     <span class="n">vp</span><span class="p">,</span> <span class="n">nbp</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">v</span><span class="p">],</span> <span class="n">positions</span><span class="p">[</span><span class="n">nb</span><span class="p">]</span>
                     <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">nbp</span><span class="o">.</span><span class="n">z</span> <span class="o">-</span> <span class="n">vp</span><span class="o">.</span><span class="n">z</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
-                        <span class="k">raise</span> <span class="n">TQECException</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s2">&quot;Z(1/2) spider must connect to the time direction, &quot;</span>
+                        <span class="k">raise</span> <span class="n">TQECError</span><span class="p">(</span>
+                            <span class="s2">&quot;Z(1/2) spider must connect to the time direction, &quot;</span>
                             <span class="sa">f</span><span class="s2">&quot;but Z(1/2) at </span><span class="si">{</span><span class="n">vp</span><span class="si">}</span><span class="s2"> connects to </span><span class="si">{</span><span class="n">nbp</span><span class="si">}</span><span class="s2">.&quot;</span>
                         <span class="p">)</span>
         <span class="c1"># 5. Check there are no 3D corners</span>
         <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
             <span class="n">vp</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
             <span class="k">if</span> <span class="nb">len</span><span class="p">({</span><span class="n">_get_direction</span><span class="p">(</span><span class="n">vp</span><span class="p">,</span> <span class="n">positions</span><span class="p">[</span><span class="n">u</span><span class="p">])</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">v</span><span class="p">)})</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">TQECException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ZX graph has a 3D corner at node </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
+                <span class="k">raise</span> <span class="n">TQECError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ZX graph has a 3D corner at node </span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Position3D</span><span class="p">:</span>
@@ -539,20 +566,21 @@ window.addEventListener("load", () => mermaid.run());
 <a class="viewcode-back" href="../../../../_autosummary/tqec.interop.PositionedZX.html#tqec.interop.PositionedZX.from_block_graph">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_block_graph</span><span class="p">(</span><span class="n">block_graph</span><span class="p">:</span> <span class="n">BlockGraph</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PositionedZX</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a :py:class:`~tqec.computation.block_graph.BlockGraph` to a</span>
-<span class="sd">        ZX graph with 3D positions.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert a :py:class:`.BlockGraph` to a ZX graph with 3D positions.</span>
 
 <span class="sd">        The conversion process is as follows:</span>
 
 <span class="sd">        1. For each cube in the block graph, convert it to a ZX vertex.</span>
-<span class="sd">        2. For each pipe in the block graph, add an edge to the ZX graph with the corresponding endpoints and Hadamard flag.</span>
+<span class="sd">        2. For each pipe in the block graph, add an edge to the ZX graph with the corresponding</span>
+<span class="sd">           endpoints and Hadamard flag.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            block_graph: The block graph to be converted to a ZX graph.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            The :py:class:`~tqec.interop.pyzx.positioned_zx.PositionedZX` object converted from the block</span>
-<span class="sd">            graph.</span>
+<span class="sd">            The :py:class:`~tqec.interop.pyzx.positioned_zx.PositionedZX` object converted from</span>
+<span class="sd">            the block graph.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">v2p</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Position3D</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">p2v</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">Position3D</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -565,7 +593,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">p2v</span><span class="p">[</span><span class="n">cube</span><span class="o">.</span><span class="n">position</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
 
         <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">block_graph</span><span class="o">.</span><span class="n">pipes</span><span class="p">:</span>
-            <span class="n">et</span> <span class="o">=</span> <span class="n">zx</span><span class="o">.</span><span class="n">EdgeType</span><span class="o">.</span><span class="n">HADAMARD</span> <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">kind</span><span class="o">.</span><span class="n">has_hadamard</span> <span class="k">else</span> <span class="n">zx</span><span class="o">.</span><span class="n">EdgeType</span><span class="o">.</span><span class="n">SIMPLE</span>
+            <span class="n">et</span> <span class="o">=</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">HADAMARD</span> <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">kind</span><span class="o">.</span><span class="n">has_hadamard</span> <span class="k">else</span> <span class="n">EdgeType</span><span class="o">.</span><span class="n">SIMPLE</span>
             <span class="n">g</span><span class="o">.</span><span class="n">add_edge</span><span class="p">((</span><span class="n">p2v</span><span class="p">[</span><span class="n">edge</span><span class="o">.</span><span class="n">u</span><span class="o">.</span><span class="n">position</span><span class="p">],</span> <span class="n">p2v</span><span class="p">[</span><span class="n">edge</span><span class="o">.</span><span class="n">v</span><span class="o">.</span><span class="n">position</span><span class="p">]),</span> <span class="n">et</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">PositionedZX</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">v2p</span><span class="p">)</span></div>
@@ -573,9 +601,12 @@ window.addEventListener("load", () => mermaid.run());
 
 <div class="viewcode-block" id="PositionedZX.to_block_graph">
 <a class="viewcode-back" href="../../../../_autosummary/tqec.interop.PositionedZX.html#tqec.interop.PositionedZX.to_block_graph">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">to_block_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockGraph</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_block_graph</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockGraph</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert the positioned ZX graph to a block graph.&quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.interop.pyzx.synthesis.positioned</span><span class="w"> </span><span class="kn">import</span> <span class="n">positioned_block_synthesis</span>
+        <span class="c1"># Needs to be imported here to avoid pulling pyzx when importing this module.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.interop.pyzx.synthesis.positioned</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>  <span class="c1"># noqa: PLC0415</span>
+            <span class="n">positioned_block_synthesis</span><span class="p">,</span>
+        <span class="p">)</span>
 
         <span class="k">return</span> <span class="n">positioned_block_synthesis</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
@@ -590,9 +621,8 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">node_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">400</span><span class="p">,</span>
         <span class="n">hadamard_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">200</span><span class="p">,</span>
         <span class="n">edge_width</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Figure</span><span class="p">,</span> <span class="n">Axes3D</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the :py:class:`~tqec.interop.pyzx.positioned.PositionedZX`</span>
-<span class="sd">        using matplotlib.</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Figure</span><span class="p">,</span> <span class="n">Axes3D</span><span class="p">]:</span>  <span class="c1"># pragma: no cover</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Plot the :py:class:`~tqec.interop.pyzx.positioned.PositionedZX` using matplotlib.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            graph: The ZX graph to plot.</span>
@@ -605,8 +635,10 @@ window.addEventListener("load", () => mermaid.run());
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A tuple of the figure and the axes.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.interop.pyzx.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_positioned_zx_graph</span>
+        <span class="c1"># Needs to be imported here to avoid pulling pyzx when importing this module.</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.interop.pyzx.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_positioned_zx_graph</span>  <span class="c1"># noqa: PLC0415</span>
 
         <span class="k">return</span> <span class="n">plot_positioned_zx_graph</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
@@ -668,7 +700,7 @@ window.addEventListener("load", () => mermaid.run());
 
   <p class="copyright">
     
-      © Copyright 2024, TQEC Community.
+      © Copyright 2024 - 2025, TQEC Community.
       <br/>
     
   </p>

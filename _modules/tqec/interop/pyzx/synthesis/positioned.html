@@ -31,6 +31,9 @@
 
     <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/jupyter-sphinx.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
   <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -43,6 +46,10 @@
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
     <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
     <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
@@ -148,15 +155,15 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../../../contributor_guide.html">
-    Contributor Guide
+  <a class="nav-link nav-internal" href="../../../../../gallery/index.html">
+    Gallery
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../../../gallery/index.html">
-    Gallery
+  <a class="nav-link nav-internal" href="../../../../../contributor_guide.html">
+    Contributor Guide
   </a>
 </li>
 
@@ -167,6 +174,23 @@ window.addEventListener("load", () => mermaid.run());
   </a>
 </li>
 
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../ethical_notice.html">
+    Ethical Notice
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
   </ul>
 </nav></div>
       
@@ -281,13 +305,6 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../../../contributor_guide.html">
-    Contributor Guide
-  </a>
-</li>
-
-
-<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../../../gallery/index.html">
     Gallery
   </a>
@@ -295,8 +312,22 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contributor_guide.html">
+    Contributor Guide
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../../../../api.html">
     API Reference
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../ethical_notice.html">
+    Ethical Notice
   </a>
 </li>
 
@@ -419,15 +450,14 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.interop.pyzx.positioned</span><span class="w"> </span><span class="kn">import</span> <span class="n">PositionedZX</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.interop.pyzx.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_boundary</span><span class="p">,</span> <span class="n">is_zx_no_phase</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.enums</span><span class="w"> </span><span class="kn">import</span> <span class="n">Basis</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TQECException</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">TQECError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">tqec.utils.position</span><span class="w"> </span><span class="kn">import</span> <span class="n">Direction3D</span>
 
 
 <div class="viewcode-block" id="positioned_block_synthesis">
 <a class="viewcode-back" href="../../../../../_autosummary/tqec.interop.positioned_block_synthesis.html#tqec.interop.positioned_block_synthesis">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">positioned_block_synthesis</span><span class="p">(</span><span class="n">g</span><span class="p">:</span> <span class="n">PositionedZX</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BlockGraph</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a positioned ZX graph to a</span>
-<span class="sd">    :py:class:`~tqec.computation.block_graph.BlockGraph`.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a positioned ZX graph to a :py:class:`~tqec.computation.block_graph.BlockGraph`.</span>
 
 <span class="sd">    This strategy requires specifying the 3D positions of each vertex explicitly</span>
 <span class="sd">    in the ZX graph. Then the conversion converts each vertex by looking at its</span>
@@ -451,7 +481,8 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        converted from the ZX graph.</span>
 
 <span class="sd">    Raises:</span>
-<span class="sd">        TQECException: A valid block graph cannot be constructed.</span>
+<span class="sd">        TQECError: A valid block graph cannot be constructed.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">nodes_to_handle</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">())</span>
     <span class="n">edges_to_handle</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">())</span>
@@ -476,17 +507,13 @@ window.addEventListener("load", () => mermaid.run());
 
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">_handle_corners</span><span class="p">(</span>
-    <span class="n">pg</span><span class="p">:</span> <span class="n">PositionedZX</span><span class="p">,</span> <span class="n">bg</span><span class="p">:</span> <span class="n">BlockGraph</span><span class="p">,</span> <span class="n">nodes_to_handle</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">_handle_corners</span><span class="p">(</span><span class="n">pg</span><span class="p">:</span> <span class="n">PositionedZX</span><span class="p">,</span> <span class="n">bg</span><span class="p">:</span> <span class="n">BlockGraph</span><span class="p">,</span> <span class="n">nodes_to_handle</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="n">g</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">g</span>
     <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">vertices</span><span class="p">():</span>
         <span class="n">directions</span> <span class="o">=</span> <span class="p">{</span><span class="n">pg</span><span class="o">.</span><span class="n">get_direction</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">neighbors</span><span class="p">(</span><span class="n">v</span><span class="p">)}</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">continue</span>
-        <span class="n">normal_direction</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="nb">set</span><span class="p">(</span><span class="n">Direction3D</span><span class="o">.</span><span class="n">all_directions</span><span class="p">())</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
-        <span class="p">)</span>
+        <span class="n">normal_direction</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">Direction3D</span><span class="o">.</span><span class="n">all_directions</span><span class="p">())</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">directions</span><span class="p">)</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
         <span class="n">normal_direction_basis</span> <span class="o">=</span> <span class="n">Basis</span><span class="o">.</span><span class="n">Z</span> <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">==</span> <span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">Z</span> <span class="k">else</span> <span class="n">Basis</span><span class="o">.</span><span class="n">X</span>
         <span class="n">bases</span> <span class="o">=</span> <span class="p">[</span><span class="n">normal_direction_basis</span><span class="o">.</span><span class="n">flipped</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
         <span class="n">bases</span><span class="p">[</span><span class="n">normal_direction</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">normal_direction_basis</span>
@@ -564,7 +591,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="k">if</span> <span class="n">other_node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">nodes_to_handle</span><span class="p">:</span>
                 <span class="n">existing_kind</span> <span class="o">=</span> <span class="n">bg</span><span class="p">[</span><span class="n">opos</span><span class="p">]</span><span class="o">.</span><span class="n">kind</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">other_cube_kind</span> <span class="o">==</span> <span class="n">existing_kind</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="n">TQECException</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Encounter conflicting cube kinds at </span><span class="si">{</span><span class="n">opos</span><span class="si">}</span><span class="s2">: &quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">TQECError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Encounter conflicting cube kinds at </span><span class="si">{</span><span class="n">opos</span><span class="si">}</span><span class="s2">: &quot;</span><span class="p">)</span>
             <span class="n">other_cube</span> <span class="o">=</span> <span class="n">Cube</span><span class="p">(</span><span class="n">opos</span><span class="p">,</span> <span class="n">other_cube_kind</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">other_cube</span> <span class="o">=</span> <span class="n">_port_or_y_cube</span><span class="p">(</span><span class="n">pg</span><span class="p">,</span> <span class="n">other_node</span><span class="p">)</span>
@@ -588,9 +615,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="c1"># Special case: single node ZXGraph</span>
     <span class="k">if</span> <span class="n">g</span><span class="o">.</span><span class="n">vertex_degree</span><span class="p">(</span><span class="n">fix_node</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">specified_kind</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">ZXCube</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;ZXZ&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">fix_type</span> <span class="o">==</span> <span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">X</span>
-            <span class="k">else</span> <span class="n">ZXCube</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;ZXX&quot;</span><span class="p">)</span>
+            <span class="n">ZXCube</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;ZXZ&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">fix_type</span> <span class="o">==</span> <span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">X</span> <span class="k">else</span> <span class="n">ZXCube</span><span class="o">.</span><span class="n">from_str</span><span class="p">(</span><span class="s2">&quot;ZXX&quot;</span><span class="p">)</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="c1"># the basis along the edge direction must be the opposite of the node kind</span>
@@ -636,9 +661,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="k">for</span> <span class="n">direction</span> <span class="ow">in</span> <span class="n">Direction3D</span><span class="o">.</span><span class="n">all_directions</span><span class="p">()</span>
     <span class="p">]</span>
     <span class="k">assert</span> <span class="n">vertex_is_zx</span><span class="p">(</span><span class="n">vertex_type</span><span class="p">)</span>
-    <span class="n">bases</span><span class="p">[</span><span class="n">pipe_kind</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">Basis</span><span class="o">.</span><span class="n">Z</span> <span class="k">if</span> <span class="n">vertex_type</span> <span class="o">==</span> <span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">X</span> <span class="k">else</span> <span class="n">Basis</span><span class="o">.</span><span class="n">X</span>
-    <span class="p">)</span>
+    <span class="n">bases</span><span class="p">[</span><span class="n">pipe_kind</span><span class="o">.</span><span class="n">direction</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="o">=</span> <span class="n">Basis</span><span class="o">.</span><span class="n">Z</span> <span class="k">if</span> <span class="n">vertex_type</span> <span class="o">==</span> <span class="n">zx</span><span class="o">.</span><span class="n">VertexType</span><span class="o">.</span><span class="n">X</span> <span class="k">else</span> <span class="n">Basis</span><span class="o">.</span><span class="n">X</span>
     <span class="k">return</span> <span class="n">ZXCube</span><span class="p">(</span><span class="o">*</span><span class="n">cast</span><span class="p">(</span><span class="nb">list</span><span class="p">[</span><span class="n">Basis</span><span class="p">],</span> <span class="n">bases</span><span class="p">))</span>
 
 
@@ -694,7 +717,7 @@ window.addEventListener("load", () => mermaid.run());
 
   <p class="copyright">
     
-      © Copyright 2024, TQEC Community.
+      © Copyright 2024 - 2025, TQEC Community.
       <br/>
     
   </p>
