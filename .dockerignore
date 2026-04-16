@@ -1,0 +1,9 @@
+.git
+.gitignore
+Dockerfile
+.venv
+.pytest_cache
+.ruff_cache
+build
+debug
+htmlcov
