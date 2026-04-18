@@ -1,7 +1,9 @@
-FROM ubuntu:latest
+FROM astral/uv:python3.12-bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV PATH="/tqec/.venv/bin:$PATH"
+
+# RUN python -m venv /opt/tqec_venv
+# ENV PATH="/opt/tqec_venv/bin:$PATH"
 
 RUN apt-get update && apt-get install -y \
     pandoc \
@@ -17,8 +19,8 @@ WORKDIR /tqec
 ENV UV_COMPILE_BYTECODE=1
 
 COPY . .
-RUN uv python pin 3.12
-RUN uv sync --frozen --no-cache --all-groups
+# RUN uv pin python 3.12
+RUN uv sync --all-groups
 
 # Open shell by default
 CMD ["/bin/bash"]
