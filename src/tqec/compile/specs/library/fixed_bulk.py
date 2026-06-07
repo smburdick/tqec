@@ -1,5 +1,6 @@
 import functools
 from collections.abc import Callable
+from typing import Protocol
 
 from typing_extensions import override
 
@@ -28,6 +29,22 @@ from tqec.utils.enums import Basis, Orientation
 from tqec.utils.exceptions import TQECError
 from tqec.utils.position import Direction3D
 from tqec.utils.scale import LinearFunction
+
+
+class _PlaquettesGenerator(Protocol):
+    def __call__(
+        self, reversed: bool, reset: Basis | None, measurement: Basis | None, /
+    ) -> Plaquettes: ...
+
+
+def _get_block(  # type: ignore
+    z_basis: Basis | None,
+    has_spatial_junction_in_timeslice: bool,
+    template: RectangularTemplate,
+    plaquettes_generator: _PlaquettesGenerator,
+    repetitions: LinearFunction,
+):
+    pass
 
 
 class FixedBulkCubeBuilder(CubeBuilder):
